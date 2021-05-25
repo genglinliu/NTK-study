@@ -1,0 +1,113 @@
+---------
+NTK notes
+---------
+
+---------------
+what is kernel
+---------------
+
+---------------
+What is NTK
+---------------
+
+---------------
+Spectural Bias
+---------------
+
+
+--------------
+Hilbert Space
+--------------
+
+	vector(linear) space:	closure under scaler product and addtion
+	
+	metric d:
+		- d(x, y) >= 0 		nonnegativity
+		- d(x, y) = d(y, x)	symmetry
+		- d(x, y) <= d(x, z) + d(z, y) for all x, y, z in X, triangle inequality
+
+	norm: (intuition: distance from 0)
+		- ||x|| = 0
+		- ||ax|| = |a| ||x||
+		- ||x + y|| <= ||x|| + ||y||
+	
+	a metric space is a set X equipped with a metric d.
+
+	normed vector space:	defines norms and distance -> metric
+	A normed linear space is a metric space with the metric d(x, y) = ||x - y||
+
+	inner product space:	defines angles in vector space
+
+	Cauchy sequence: 
+	complete space (Cauchy space): every Cauchy sequence in M converges in M (has a limit that is also in M) 		
+	Banach space:		a complete normed vector space
+
+	Hilbert space is a complete vector space equipped with an inner product operation
+
+	Summary
+	 - metric + linear => linear metric space
+	 - norm + linear => normed linear space + completeness => Banach space
+	 - inner product + linear = inner product space + completeness => Hilbert space
+
+---------
+RKHS
+---------
+	
+
+
+-----------
+Project
+-----------
+	understand the spectral bias of deep learning through the study of NTK.
+
+Goal #1: 
+	Quantify the learnability of the kernel method based on NTK. 
+        This is expected to be done by investigating the reproducing 
+	kernel Hilbert space (RKHS) associated to the NTK.
+
+Experiment ideas:
+ - 	What happens to the RHKS of the NTK if ReLU is replaced by other 
+   	activation function, such as {ReLU}^k or smooth activation function 
+   	such as sin, cos?
+
+ - 	Multiple activation functions can sometimes achieve much better 
+   	approximation power than the ones with a single activation. 
+   	Can we show that the spectral bias of NTK can be alleviated if one 
+   	uses multiple activation functions?
+
+
+paper 1, 3, 4:
+   	the RKHS of the NTK for a deep ReLU neural network is identical to 
+   	the RKHS of a Laplace kernel.
+
+paper 5: 
+	NTK orginal paper
+
+Goal #2: 
+	Reducing the spectral bias of NTK by reparameterization of the input. 
+	Consider the regression problem of fitting a target function containing 
+	multiple frequencies using neural networks. 
+	
+	Due to the spectral bias, the high frequency mode is much difficult to learn 
+	compared to the lower modes. 
+
+	However, if we first reparameterize the input via certain nonlinear transform, 
+	such as sin-transform so that the input is encoded to certain frequency mode, 
+	then could we show that the spectrum of the NTK after reparameterization 
+	decays slower than the original NTK?
+
+paper 6, 8, 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
