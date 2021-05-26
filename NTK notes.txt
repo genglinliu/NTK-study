@@ -13,7 +13,13 @@ What is NTK
 ---------------
 Spectural Bias
 ---------------
+	neural networks are biased towards learning less complex functions
+	The priority of learning functions with low complexity might be at the core of 
+	explaining generalization ability of neural network
 
+	The concept of spectral bias is appealing because this may intuitively explain
+	why over-parameterized neural networks can achieve a good generalization 
+	performance without overfitting
 
 --------------
 Hilbert Space
@@ -54,6 +60,9 @@ RKHS
 ---------
 	
 
+----------------
+eigenvalue decay
+----------------
 
 -----------
 Project
@@ -79,6 +88,9 @@ Experiment ideas:
 paper 1, 3, 4:
    	the RKHS of the NTK for a deep ReLU neural network is identical to 
    	the RKHS of a Laplace kernel.
+
+paper 2, 7: 
+	spectral bias
 
 paper 5: 
 	NTK orginal paper
