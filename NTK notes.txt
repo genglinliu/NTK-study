@@ -5,10 +5,24 @@ NTK notes
 ---------------
 what is kernel
 ---------------
+	kernel method is a method to map data input space into 
+	a higher dimensional Hilbert space, such that 
+	K(x1, x2) = <phi(x1), phi(x2)> 
+	where phi is the transformation and <.> is the inner product
+	We do this because we can compute the dot product in the high 
+	dim feature space using kernels without knowing how to compute phi()
 
 ---------------
 What is NTK
 ---------------
+	NN: y = f(w, x)
+	Lazy training: where learnable weights barely change over training steps
+	First order Taylor approximation around the weight initialization w_0
+	f(w, x) ~= f(w_0, x) + (grad_w)f(w_0, x)(w - w_0) + ...
+	let phi(x) = (grad_w)f(w_0, x)
+	this behaves as a linear model in w
+	the kernel function 
+	ker(x, x') = <phi(x), phi(x')> is called NTK
 
 ---------------
 Spectural Bias
@@ -37,6 +51,11 @@ Hilbert Space
 		- ||ax|| = |a| ||x||
 		- ||x + y|| <= ||x|| + ||y||
 	
+	inner product (x, y):
+		- symmetric: (x, y) = (y, x)
+		- positive definite: (x, x) > 0
+		- bi-linear: (ax + by, z) = a(x, z) + b(y, z)	
+
 	a metric space is a set X equipped with a metric d.
 
 	normed vector space:	defines norms and distance -> metric
@@ -58,7 +77,21 @@ Hilbert Space
 ---------
 RKHS
 ---------
-	
+	- function of one variable => inf-dim vector
+	- function of two variables => inf-dim matrix
+
+	- kernel function:
+		- positive definite
+		- symmetric
+	- kernel function can be seen as infinite-dim matrix
+		- it is a symmetric real matrix
+		- eigenvalue decomposition
+
+	- in RKHS, inner product is constructed by kernel functions
+ 	- reproducing property:
+		- K(x, y) = (K(x,·), K(y,·))
+
+ 	- can also be defined with dirac evaluation functional
 
 ----------------
 eigenvalue decay
