@@ -8,6 +8,7 @@ what is kernel
 	kernel method is a method to map data input space into 
 	a higher dimensional Hilbert space, such that 
 	K(x1, x2) = <phi(x1), phi(x2)> 
+		- you need the higher-dim to make input data linearly separable
 	where phi is the transformation and <.> is the inner product
 	We do this because we can compute the dot product in the high 
 	dim feature space using kernels without knowing how to compute phi()
@@ -87,15 +88,33 @@ RKHS
 		- it is a symmetric real matrix
 		- eigenvalue decomposition
 
-	- in RKHS, inner product is constructed by kernel functions
+	- in RKHS, inner product is constructed(reproduced) by kernel functions
  	- reproducing property:
 		- K(x, y) = (K(x,·), K(y,·))
 
  	- can also be defined with dirac evaluation functional
 
+	- 
+
+----------------
+Laplacian Kernel
+----------------
+	- K(x, y) = exp(-||x - y|| / sigma)
+	
+	- similar to Gaussian kernel - without square
+
+
+
 ----------------
 eigenvalue decay
 ----------------
+16, 4.10
+
+	- write a kernel k(x, x') as a matrix 
+	- do spectral decomposition (eigenvalue decomposition) on this matrix
+	- the eigenvalues are decreasing on the diagnal and the rate of that decrease
+	  is called eigenvalue decay
+
 
 -----------
 Project
@@ -111,6 +130,9 @@ Experiment ideas:
  - 	What happens to the RHKS of the NTK if ReLU is replaced by other 
    	activation function, such as {ReLU}^k or smooth activation function 
    	such as sin, cos?
+	
+ - 	compute NTK and the Laplace kernel for a ultra-wide one hidden layer NN
+	and observe their eigenvalue decay
 
  - 	Multiple activation functions can sometimes achieve much better 
    	approximation power than the ones with a single activation. 
@@ -147,7 +169,13 @@ paper 6, 8, 9
 
 
 
+--------------------------------------------------
+ReLU network
 
+with a ReLU network, NTK and Laplace kernel has the same eigenvalue decay
+
+having a kernel K(x, x')
+randome sample from 
 
 
 
