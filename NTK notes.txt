@@ -8,7 +8,8 @@ what is kernel
 	kernel method is a method to map data input space into 
 	a higher dimensional Hilbert space, such that 
 	K(x1, x2) = <phi(x1), phi(x2)> 
-		- you need the higher-dim to make input data linearly separable
+	
+	you need the higher-dim to make input data linearly separable
 	where phi is the transformation and <.> is the inner product
 	We do this because we can compute the dot product in the high 
 	dim feature space using kernels without knowing how to compute phi()
@@ -24,6 +25,9 @@ What is NTK
 	this behaves as a linear model in w
 	the kernel function 
 	ker(x, x') = <phi(x), phi(x')> is called NTK
+
+	但是，无限宽度极限下的神经网络可以简化为具备神经正切核（neural tangent kernel，NTK）的线性模型
+	ultra-wide NN can be simplified as a linear kernel regression, and this kernel is called NTK
 
 ---------------
 Spectural Bias
@@ -94,13 +98,11 @@ RKHS
 
  	- can also be defined with dirac evaluation functional
 
-	- 
 
 ----------------
 Laplacian Kernel
 ----------------
 	- K(x, y) = exp(-||x - y|| / sigma)
-	
 	- similar to Gaussian kernel - without square
 
 
@@ -115,6 +117,11 @@ eigenvalue decay
 	- the eigenvalues are decreasing on the diagnal and the rate of that decrease
 	  is called eigenvalue decay
 
+
+------------------
+gradient flow
+------------------
+	- gradient decent with infinitesimally small learning rate
 
 -----------
 Project
@@ -174,8 +181,26 @@ ReLU network
 
 with a ReLU network, NTK and Laplace kernel has the same eigenvalue decay
 
-having a kernel K(x, x')
-randome sample from 
+Task:
+
+ - calculate a kernel K(x_i, x_j)
+	- 2-layer NN (1 hidden layer)
+	- Take 1st order derivative of the weight 
+	- If you go back to the part where we first Taylor expanded the network function, 
+	  we saw that the linearized model has a feature map ϕ(x)=∇wf(x,w0).
+	- The kernel matrix corresponding to this feature map 
+	  is obtained by taking pairwise inner products between 
+	  the feature maps of all the data points. This is exactly H(w0)
+
+ - randomly sample (x_i, x_j) from a uniform distribution [0, 1] 
+ - write this as a kernel matrix (100, 100)
+ - continued kernel is an operator (like an integral) - we approximate it with a matrix
+ - then observe the spectrum (by eigenvalue decomposition) - observe the eigen decay
+
+ - compare the kernel of NTK and Laplace kernel
+ - under a different activation function e.g. {ReLU}^k
+ - tune the value of alpha in ||x - y||^a and see which one is the closest to NTK eigenvalue decay
+
 
 
 
