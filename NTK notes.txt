@@ -79,9 +79,9 @@ Hilbert Space
 	 - norm + linear => normed linear space + completeness => Banach space
 	 - inner product + linear = inner product space + completeness => Hilbert space
 
----------
+----------------
 RKHS
----------
+----------------
 	- function of one variable => inf-dim vector
 	- function of two variables => inf-dim matrix
 
@@ -193,6 +193,7 @@ Task:
 	  the feature maps of all the data points. This is exactly H(w0)
 
  - randomly sample (x_i, x_j) from a uniform distribution [0, 1] 
+	- sample 100 x_i, and 100 x_j
  - write this as a kernel matrix (100, 100)
  - continued kernel is an operator (like an integral) - we approximate it with a matrix
  - then observe the spectrum (by eigenvalue decomposition) - observe the eigen decay
