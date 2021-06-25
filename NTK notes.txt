@@ -1,10 +1,10 @@
----------
+------------------
 NTK notes
----------
+------------------
 
----------------
+------------------
 what is kernel
----------------
+------------------
 	kernel method is a method to map data input space into 
 	a higher dimensional Hilbert space, such that 
 	K(x1, x2) = <phi(x1), phi(x2)> 
@@ -14,9 +14,9 @@ what is kernel
 	We do this because we can compute the dot product in the high 
 	dim feature space using kernels without knowing how to compute phi()
 
----------------
+------------------
 What is NTK
----------------
+------------------
 	NN: y = f(w, x)
 	Lazy training: where learnable weights barely change over training steps
 	First order Taylor approximation around the weight initialization w_0
@@ -26,12 +26,11 @@ What is NTK
 	the kernel function 
 	ker(x, x') = <phi(x), phi(x')> is called NTK
 
-	但是，无限宽度极限下的神经网络可以简化为具备神经正切核（neural tangent kernel，NTK）的线性模型
 	ultra-wide NN can be simplified as a linear kernel regression, and this kernel is called NTK
 
----------------
+------------------
 Spectural Bias
----------------
+------------------
 	neural networks are biased towards learning less complex functions
 	The priority of learning functions with low complexity might be at the core of 
 	explaining generalization ability of neural network
@@ -40,9 +39,9 @@ Spectural Bias
 	why over-parameterized neural networks can achieve a good generalization 
 	performance without overfitting
 
---------------
+------------------
 Hilbert Space
---------------
+------------------
 
 	vector(linear) space:	closure under scaler product and addtion
 	
@@ -79,9 +78,9 @@ Hilbert Space
 	 - norm + linear => normed linear space + completeness => Banach space
 	 - inner product + linear = inner product space + completeness => Hilbert space
 
-----------------
+------------------
 RKHS
-----------------
+------------------
 	- function of one variable => inf-dim vector
 	- function of two variables => inf-dim matrix
 
@@ -99,33 +98,28 @@ RKHS
  	- can also be defined with dirac evaluation functional
 
 
-----------------
+------------------
 Laplacian Kernel
-----------------
+------------------
 	- K(x, y) = exp(-||x - y|| / sigma)
 	- similar to Gaussian kernel - without square
 
-
-
-----------------
+------------------
 eigenvalue decay
-----------------
-16, 4.10
-
+------------------
 	- write a kernel k(x, x') as a matrix 
 	- do spectral decomposition (eigenvalue decomposition) on this matrix
 	- the eigenvalues are decreasing on the diagnal and the rate of that decrease
 	  is called eigenvalue decay
-
 
 ------------------
 gradient flow
 ------------------
 	- gradient decent with infinitesimally small learning rate
 
------------
+------------------
 Project
------------
+------------------
 	understand the spectral bias of deep learning through the study of NTK.
 
 Goal #1: 
@@ -176,8 +170,9 @@ paper 6, 8, 9
 
 
 
---------------------------------------------------
+------------------
 ReLU network
+------------------
 
 with a ReLU network, NTK and Laplace kernel has the same eigenvalue decay
 
