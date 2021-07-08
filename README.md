@@ -38,16 +38,17 @@ Our goal was that given a fixed value k (where we have ReLU^k as our activation 
 
 The laplacian kernel is defined as $Laplacian(x, y) = exp(\frac{-||x - y||}{\sigma})$. With some numeirical confirmation, we noticed that changes in sigma does not affect the decay rate. We introduce the pseudo-laplacian kernel where we add a parameter `alpha` to the definition, now we have $Laplacian(x, y) = exp(\frac{-||x - y||^\alpha}{\sigma})$, where `alpha` takes real value from [1, 2). 
 
-The Gaussian kernel is defined as $Gaussian(x, y) = exp(\frac{-||x - y||^2}{2(\sigma^2)})$. And since we know that 
-
+The Gaussian kernel is defined as $Gaussian(x, y) = exp(\frac{-||x - y||^2}{2(\sigma^2)})$. And since we know that the constant `sigma` does not contribute to the rate of decay, we note that when we take `alpha=2` that pseudo-laplacian kernel would have the same spetral decay as the Gaussian kernel. So `alpha` takes values from 1 to 2. 
 
 
 #### Results for Experiment 1
+Unfortunately, through the numerical experiments we found out that the decay rate of pseudo-laplacian kernel cannot match most of k values greater than 1, unless the value of `alpha` is very close to 2. NTK for ReLU network has a decay rate of approximately -1.9, but for ReLU^2 it becomes below -4. We noticed that the slope with respect to `k` and `alpha` values both decrease linearly, but with `k` value it drops a lot faster. 
 
+Therefore we are to try another approach. To make the pseudo-laplacian kernel "smoother" and potentially slow down the eigenvalue decay rate, we add a new term to the kernel definition and introduce another parameter `beta`. Now we define our kernel to be $$Laplacian(x, y) = e^{(-||x - y||^\alpha)} ||x - y||^\beta$$ Since the $\sigma$ value holds no significance, we won't include it in the formulas anymore. 
 
  
 ### Experiment 2: Implement multi-layer NTK and observe the behaviors of multiple activation functions acting upon each other
 
-TODO:
- - 
+### TODO:
+ - redo the experiments now tune both alpha and beta
  - Implement NTK for three-layer fully connected networks. Must be able to take both ReLU^k and sine/cosine as activation. Still implement the analytic solution so we can verify correctness
