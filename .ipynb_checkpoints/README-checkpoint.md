@@ -42,9 +42,11 @@ The Gaussian kernel is defined as $Gaussian(x, y) = exp(\frac{-||x - y||^2}{2(\s
 
 
 #### Results for Experiment 1
-Unfortunately, through the numerical experiments we found out that the decay rate of pseudo-laplacian kernel cannot match most of k values greater than 1, unless the value of `alpha` is very close to 2. NTK for ReLU network has a decay rate of approximately -1.9, but for ReLU^2 it becomes below -4. We noticed that the slope with respect to `k` and `alpha` values both decrease linearly, but with `k` value it drops a lot faster. 
+Unfortunately, through the numerical experiments we found out that the decay rate of pseudo-laplacian kernel cannot match most of k values greater than 1, unless the value of `alpha` is very close to 2. NTK for ReLU network has a decay rate of approximately -1.9, but for ReLU^2 it becomes below -4. We noticed that the slope with respect to `k` and `alpha` values both decrease linearly, but with `k` value it drops a lot faster. [insert plots here]
 
 Therefore we are to try another approach. To make the pseudo-laplacian kernel "smoother" and potentially slow down the eigenvalue decay rate, we add a new term to the kernel definition and introduce another parameter `beta`. Now we define our kernel to be $$Laplacian(x, y) = e^{(-||x - y||^\alpha)} ||x - y||^\beta$$ Since the $\sigma$ value holds no significance, we won't include it in the formulas anymore. 
+
+With the extended pseudo-laplacian we conducted another series of numerical experiments. We fixed alpha value to be 1.0, and for each k value in ReLU^k networks we tuned beta value so that the difference in the rate of spetral decay between the modified laplacian kernel and the NTK is minimized. We found that for either `alpha=1` (where the kernel is a modified laplacian) or `alpha=2` (where the kernel becomes a scaled Gaussian kernel) we were able to find appropriate `beta` values that make the kernel decay rate the same as the ReLU^k activated NTKs, for each k value from 1 to 5. Moreover, such found beta values and the k values appear to have a linear relationship, i.e. as k increases, beta linearly increases as well. [insert plots here]
 
  
 ### Experiment 2: Implement multi-layer NTK and observe the behaviors of multiple activation functions acting upon each other
@@ -52,3 +54,13 @@ Therefore we are to try another approach. To make the pseudo-laplacian kernel "s
 ### TODO:
  - redo the experiments now tune both alpha and beta
  - Implement NTK for three-layer fully connected networks. Must be able to take both ReLU^k and sine/cosine as activation. Still implement the analytic solution so we can verify correctness
+ 
+<!-- # TO FIX: you cannot sample from gaussian entry-wise
+# look at your previous work!!!
+# solution: maybe get the B_1 and B_2 first then sample once for all entries?
+
+# TODO:
+# 1. get whole kernel working, plot eigen decay
+# 2. clean up your code make it modular and compact
+# 4. vectorize if you can
+# 5. when you write up doc, refer to your commit history -->

@@ -54,3 +54,13 @@ With the extended pseudo-laplacian we conducted another series of numerical expe
 ### TODO:
  - redo the experiments now tune both alpha and beta
  - Implement NTK for three-layer fully connected networks. Must be able to take both ReLU^k and sine/cosine as activation. Still implement the analytic solution so we can verify correctness
+ 
+<!-- # TO FIX: you cannot sample from gaussian entry-wise
+# look at your previous work!!!
+# solution: maybe get the B_1 and B_2 first then sample once for all entries?
+
+# TODO:
+# 1. get whole kernel working, plot eigen decay
+# 2. clean up your code make it modular and compact
+# 4. vectorize if you can
+# 5. when you write up doc, refer to your commit history -->
