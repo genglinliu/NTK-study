@@ -32,7 +32,10 @@ We also plotted Laplacian kernels, Gaussian kernels, and NTK activated by sine a
 
 ### Experiment 1: Looking for Generalizations between ReLU^k kernel and Laplacian kernels
 
-We calculated the slope of the spectral decay by taking two end points (x = 30 and x = 100) representing the 30th and the 100th sorted eigenvalues. Between these two end points we obtain 70 eigenvalues sorted in descending order. Since we know the decay rate is in polynomial order, we solve a linear regression line to fit the points under log-log scale. Concretely we take the log of both x and y values and fit a line log(y) = m log(x) + b. This `m` is the slope (or rate) of the decay.  
+The first part of this project is to quantify the learnability of the kernel method based on NTK. This is expected to be done by investigating the reproducing 
+kernel Hilbert space (RKHS) associated to the NTK. Concretely, we are interested in a quantified relationship between the ReLU^k activated NTK and laplacian kernels. 
+
+We calculated the rate of the spectral decay by taking two end points (x = 30 and x = 100) representing the 30th and the 100th sorted eigenvalues. Between these two end points we obtain 70 eigenvalues sorted in descending order. Since we know the decay rate is in polynomial order, we solve a linear regression line to fit the points under log-log scale. Concretely we take the log of both x and y values and fit a line log(y) = m log(x) + b. This `m` is the slope (or rate) of the decay. In case of numerical issues caused by solving the singular value deposition (SVD) while doing the linear regression, I also preserved a naive implementation while we simply take two fixed endpoints and calculate the slope of the line passing through those two endpoints. 
 
 Our goal was that given a fixed value k (where we have ReLU^k as our activation function) we could find a pseudo laplacian kernel (where ||x - y|| is raised to a power alpha) that has approximately the same decay rate. 
 
@@ -49,7 +52,11 @@ Therefore we are to try another approach. To make the pseudo-laplacian kernel "s
 With the extended pseudo-laplacian we conducted another series of numerical experiments. We fixed alpha value to be 1.0, and for each k value in ReLU^k networks we tuned beta value so that the difference in the rate of spetral decay between the modified laplacian kernel and the NTK is minimized. We found that for either `alpha=1` (where the kernel is a modified laplacian) or `alpha=2` (where the kernel becomes a scaled Gaussian kernel) we were able to find appropriate `beta` values that make the kernel decay rate the same as the ReLU^k activated NTKs, for each k value from 1 to 5. Moreover, such found beta values and the k values appear to have a linear relationship, i.e. as k increases, beta linearly increases as well. [insert plots here]
 
  
-### Experiment 2: Implement multi-layer NTK and observe the behaviors of multiple activation functions acting upon each other
+### Experiment 2: Implement multi-layer NTK and observe the behaviors of the kernel with multiple activation functions stacking upon each other
+
+Deep neural network with multiple activation functions can sometimes achieve much better approximation power than the ones with a single activation. Can we show that the spectral bias of NTK can be alleviated if one uses multiple activation functions?
+
+To verify this idea, we had to extend our 
 
 ### TODO:
  - redo the experiments now tune both alpha and beta
