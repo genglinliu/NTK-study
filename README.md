@@ -56,18 +56,19 @@ With the extended pseudo-laplacian we conducted another series of numerical expe
 
 Deep neural network with multiple activation functions can sometimes achieve much better approximation power than the ones with a single activation. Can we show that the spectral bias of NTK can be alleviated if one uses multiple activation functions?
 
-To verify this idea, we had to extend our 
+To verify this idea, we had to extend our kernel construction from two layers to three layers, i.e. now we have an input layer and two hidden layers in our model. Because the sampling is now multivariate instead of the previous case, we had to build a new model from scratch to keep the compuatation coherent.
+
+The paper again provides kernel definition for each entry assuming multi-dimensional inputs. To compute the expected values in the equation we again need to sample from a multivariate Gaussian distribution, but by doing a large number of sampling on each entry introduces a lot more computation and more numerical unstability (**not sure if it is correct, ask prof**). Similar to the two-layer case we have an analytial solution for the ReLU network, as well as numerical approximation to a network with a general nonlinear activation, with both an entry-wise version and a vectorized version. 
+
+**Smoothness of activation functions** We know that the sine and cosine functions are smooth, i.e infinitely differentiable as any order of derivative is still a continuous. On the other hand, the rectified linear unit (ReLU) is a non-smooth function as even the first order of derivative is not continuous. As we raise ReLU to some power k, the resulting function ReLU^k becomes somewhat "smoother" due to more differentiability.
+
+We have known facts about the relationship between the smoothness of the kernel functiona and their RKHS. As observed in our 2-layer NTKs, smoother kernels (Gaussian kernel and sine/cosine-activated NTK) have a much higher spectral decay rate (exponentially as we observed) whereas the other non-smooth kernels such as laplace and ReLU-activated NTK counterparts have a slower eigenvalue decay, linearly as observed. 
+
+For the multi-layer NTK with different activation functions, our initial speculation was that the smoothness of the kernel is governed by whatever activation function that comes first, i.e. if we have a sine activation function on the first hidden layer and ReLU on the second, then the kernel would exhibit a faster spectral decay rate than the one if we switched the order of the activation functions. However our numerical experiments tells otherwise. 
+
+With a three-layer NTK, we observed the decay by numerically computing the NTK and plotting the sorted eigenvalues. The result suggests that if we mix up the activation function (having multiple different activation functions on each hidden layer), the resulting spectral decays are similar, or at least they decay at the same rate. In fact, with ReLU + sine combination, the resulting eigendecay is always similar to the one with only ReLU activation, regardless of the order of placement. This overthrows our speculation and confirms that the non-smooth activation function actually plays a bigger role in determining the RKHS of the NTK in the multi-layer context.
 
 ### TODO:
- - redo the experiments now tune both alpha and beta
- - Implement NTK for three-layer fully connected networks. Must be able to take both ReLU^k and sine/cosine as activation. Still implement the analytic solution so we can verify correctness
- 
-<!-- # TO FIX: you cannot sample from gaussian entry-wise
-# look at your previous work!!!
-# solution: maybe get the B_1 and B_2 first then sample once for all entries?
-
-# TODO:
-# 1. get whole kernel working, plot eigen decay
-# 2. clean up your code make it modular and compact
-# 4. vectorize if you can
-# 5. when you write up doc, refer to your commit history -->
+ - refer to the todo line in the code
+ - part III: actually do a regression to a function with high/low frequencies. 
+ - have a three-layer network with both ReLU and sine activations and observe the training. 
