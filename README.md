@@ -75,6 +75,9 @@ MLPs have difficulty learning high frequency functions, a phenomenon referred to
 NTK theory suggests that this is because standard coordinate-based MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency content present in natural images and scenes
 [reference](https://arxiv.org/pdf/2006.10739.pdf)
 
+The outputs of a network throughout gradient descent remain close to those of a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. Analysis of the NTK’s eigendecomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the widely-observed "spectral bias" of deep networks towards learning
+low-frequency functions
+
 ### TODO:
  - refer to the todo line in the code
  - part III: actually do a regression to a function with high/low frequencies. 
