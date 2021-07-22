@@ -69,6 +69,10 @@ For the multi-layer NTK with different activation functions, our initial specula
 With a three-layer NTK, we observed the decay by numerically computing the NTK and plotting the sorted eigenvalues. The result suggests that if we mix up the activation function (having multiple different activation functions on each hidden layer), the resulting spectral decays are similar, or at least they decay at the same rate. In fact, with ReLU + sine combination, the resulting eigendecay is always similar to the one with only ReLU activation, regardless of the order of placement. This overthrows our speculation and confirms that the non-smooth activation function actually plays a bigger role in determining the RKHS of the NTK in the multi-layer context.
 
 
+#### Experiment 3: Fitting multi-scale functions with ReLU and sine activation functions
+
+We trained a three-layer fully connected neural network hoping that we would get some observation to acccomondate our previous results. 
+
 #### Theory
 MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as "spectral bias"
 
