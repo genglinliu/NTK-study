@@ -69,20 +69,17 @@ For the multi-layer NTK with different activation functions, our initial specula
 With a three-layer NTK, we observed the decay by numerically computing the NTK and plotting the sorted eigenvalues. The result suggests that if we mix up the activation function (having multiple different activation functions on each hidden layer), the resulting spectral decays are similar, or at least they decay at the same rate. In fact, with ReLU + sine combination, the resulting eigendecay is always similar to the one with only ReLU activation, regardless of the order of placement. This overthrows our speculation and confirms that the non-smooth activation function actually plays a bigger role in determining the RKHS of the NTK in the multi-layer context.
 
 
-#### Experiment 3: Fitting multi-scale functions with ReLU and sine activation functions
+### Experiment 3: Fitting multi-scale functions with ReLU and sine activation functions
 
-We trained a three-layer fully connected neural network hoping that we would get some observation to acccomondate our previous results. 
+We trained a three-layer fully connected neural network hoping that we would get some observation to acccomondate our previous results. We first constructed a function where we have a sum of sine waves of different frequencies. We also picked the fourier series of square wave as our second experiement subject. What these two functions have in common is that they have a range of different frequency components, and we can observe how different activation functions react to them. 
 
-#### Theory
+We constructed a three-layer fully connected neural network with 500 neurons in each layer. The weights of each linear layer is initialized from a Normal distribution centered at 0 and a standard deviation of $\frac{1}{\sqrt{m}}$. We have that under this specific initialization, the neural network training dynamic will be under the NTK regime. Note that in this kernel regime where the network layer is ultra-wide, the neuron weights don't change significantly during training, a phenomenon described as "lazy training" in literature (reference needed). Without the specific weight initialization where we scale the standard deviation, the training is said to be another regime called the mean field regime. 
+
+
+### Theory
 MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as "spectral bias"
 
-NTK theory suggests that this is because standard coordinate-based MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency content present in natural images and scenes
-[reference](https://arxiv.org/pdf/2006.10739.pdf)
+NTK theory suggests that this is because standard coordinate-based MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency components in functions and content present in natural images and scenes [reference](https://arxiv.org/pdf/2006.10739.pdf)
 
 The outputs of a network throughout gradient descent remain close to those of a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. Analysis of the NTK’s eigendecomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the widely-observed "spectral bias" of deep networks towards learning
 low-frequency functions
-
-### TODO:
- - refer to the todo line in the code
- - part III: actually do a regression to a function with high/low frequencies. 
- - have a three-layer network with both ReLU and sine activations and observe the training. 
