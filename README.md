@@ -3,17 +3,24 @@ Understand the spectral bias of deep learning through the study of NTK
 
 We implemented our neural tangent kernel based off the formulas given in [this paper](https://papers.nips.cc/paper/2019/file/c4ef9c39b300931b69a36fb3dbb8d60e-Paper.pdf)
 
+### Theory
+MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as "spectral bias"
+
+NTK theory suggests that this is because standard coordinate-based MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency components in functions and content present in natural images and scenes [reference](https://arxiv.org/pdf/2006.10739.pdf)
+
+The outputs of a network throughout gradient descent remain close to those of a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. Analysis of the NTK’s eigendecomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the widely-observed "spectral bias" of deep networks towards learning low-frequency functions.
+
 ### Activation functions
 we investigate several activation functions, including the rectified linear unit (ReLU) and some variants where we raise ReLU(x) to a constant power k (ReLU^k)
 
 We also build NTK activated by certain trigonometric functions, namely sine and cosine. 
 
 ### Different Input Dimensions
-The earliest model that we implemented only had one dimension, i.e. the input vector x was taken from a segment on the number line under the range [-1, 1]. 
+The most rudimentery model that we implemented only had one dimension, i.e. the input vector x was taken from a segment on the number line under the range [-1, 1]. 
+
+High dimensional inputs are taken from higher-dimensional spheres. We take 2-dimensional inputs. Here is an example in practice: uniformly drawing 200 points on the unit circle gives us an input vector `x` of shape (2, 200), where each column is a pair of coordinates (cos(theta), sin(theta))
 
 ### NTK of a Two Layer Fully Connected Network
-
-We take 2-dimensional inputs. Uniformly take 200 points on the unit circle gives us an input vector `x` with shape (2, 200)
 
 With the dot product operation and a fast scientic computing library in Python, we are able to follow the entry-wise kernel definitions shown in the paper and massively speed up the computation with vectorized linear algebra tricks. 
 
@@ -28,7 +35,7 @@ The kernel function is a function of two input variables, thus we can discretize
 
 We observe that for ReLU^k networks, the decay on log-log plots appear polynomial; the asymptotic decay actually appears linear - [insert picture]
 
-We also plotted Laplacian kernels, Gaussian kernels, and NTK activated by sine and cosine. It turns out the Laplacian kernels have similar spectral decay rates as the ReLU^k kernels, whereas the sine and cosine-activated Neural Tangent Kernels have more resemblance to the Gaussian kernels.
+We also plotted Laplacian kernels, Gaussian kernels, and NTK activated by sine and cosine. It turns out the Laplacian kernels have the same magnitute of spectral decay rates as the ReLU^k kernels, whereas the sine and cosine-activated Neural Tangent Kernels have more resemblance to the Gaussian kernels.
 
 ### Experiment 1: Looking for Generalizations between ReLU^k kernel and Laplacian kernels
 
@@ -85,13 +92,6 @@ In addition, we found that practically it is very hard to train the network with
 
 Discussion: It is understandble how having sine as the last activation function is essential especially when our function is contructed by a composite of sine functions. 
 
-### Theory
-MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as "spectral bias"
-
-NTK theory suggests that this is because standard coordinate-based MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency components in functions and content present in natural images and scenes [reference](https://arxiv.org/pdf/2006.10739.pdf)
-
-The outputs of a network throughout gradient descent remain close to those of a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. Analysis of the NTK’s eigendecomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the widely-observed "spectral bias" of deep networks towards learning
-low-frequency functions
 
 ### TODO:
 insert images/plots and more latex formulas about NTK into the doc
