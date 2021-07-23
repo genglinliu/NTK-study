@@ -75,6 +75,15 @@ We trained a three-layer fully connected neural network hoping that we would get
 
 We constructed a three-layer fully connected neural network with 500 neurons in each layer. The weights of each linear layer is initialized from a Normal distribution centered at 0 and a standard deviation of $\frac{1}{\sqrt{m}}$. We have that under this specific initialization, the neural network training dynamic will be under the NTK regime. Note that in this kernel regime where the network layer is ultra-wide, the neuron weights don't change significantly during training, a phenomenon described as "lazy training" in literature (reference needed). Without the specific weight initialization where we scale the standard deviation, the training is said to be another regime called the mean field regime. 
 
+The trainer of this neural network uses Mean Square Loss and the cost function is optimized by full batch gradient descent. 
+
+We apply activation functions to each hidden layer separately. From the standard weight initialization, we observe that ReLU+ReLU combination perform rather poorly on fitting the data as the predicted curve is rigid on the turns. Sine + ReLU combination works somewhat better, as the predicted curves are smoother and generally closer to the data points. Sine + Sine activation was able to learn to fit the target data points fairly well, but the high-frequency components were still not perfectly fitted. The best performing activation combination is ReLU + Sine, as the network was able to achieve zero training loss on the given data. 
+
+With the NTK weight initialization, we have different emperical results. With the fourier square wave as the target function, the experiments reveals that only sine+sine is a good performing combination of activation functions. All the other fitted curves could not fit any of the high frequency component but sine+sine had zero loss on the training data. 
+
+In addition, we found that practically it is very hard to train the network with exponentiated ReLU as we experience gradient problem too often. During back propagation the loss would easily become too large numerically and compromise the whole fitting process. Therefore all of our numerical experiments were done with regular first order ReLU. The results we obtained with ReLU^k activation under the NTK regime is still valuable nevertheless, as their theoretical behavior and relations with Laplacian kernels are still very interesting to study.
+
+Discussion: It is understandble how having sine as the last activation function is essential especially when our function is contructed by a composite of sine functions. 
 
 ### Theory
 MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as "spectral bias"
@@ -83,3 +92,6 @@ NTK theory suggests that this is because standard coordinate-based MLPs correspo
 
 The outputs of a network throughout gradient descent remain close to those of a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. Analysis of the NTK’s eigendecomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the widely-observed "spectral bias" of deep networks towards learning
 low-frequency functions
+
+### TODO:
+insert images/plots and more latex formulas about NTK into the doc
