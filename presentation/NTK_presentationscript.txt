@@ -1,0 +1,132 @@
+﻿P1 - welcome
+
+
+* Hi everyone my name is Genglin. I’m from UMass Amherst and I work under professor Yulong Lu. Today I’m presenting my summer REU project on Demystifying The Spectral Bias of Overparameterized Deep Neural Networks.
+
+
+P2 - outline
+
+
+* The outline of our talk is as follows: First we will introduce the concept of Neural tangent kernel, then I will talk about the three major modules of this project. 
+* In part 1 we try to find matching ReLU^k  activated kernels with generalized Laplacian kernels. 
+* In the second part we study the spectral properties of multi-layer NTK with multiple activation functions. 
+* Lastly we trained a neural network and fitted a multi-scale regression target in NTK regime
+
+
+P3 - motivation of NTK
+
+
+* The great success of modern machine learning is largely attributed to the use of deep neural networks. It has been shown that when our neural network layer is infinitely wide, the neural networks behave very similarly to kernel regression with a special kernel called Neural Tangent Kernel (NTK). 
+* Therefore understanding the theoretical properties of NTK (such as its spectral property and learnability) would help us better understand the convergence and generalization error of neural networks in the overparameterization regime. 
+* We will be Investigating the reproducing kernel Hilbert space (RKHS) associated to the NTK, by numerically approximating the kernel matrix and compute its spectral decay through eigen-decomposition. 
+* You may ask, why do we care about spectral decay? We study the kernel through its spectral decay because it reveals the learnability of the neural network that a particular kernel corresponds to.
+
+
+P4 - definition of NTK
+
+
+* Here we have the recursive definition of neural tangent kernel. First we define a fully connected deep neural network with weights initialized from a Normal Distribution and a general nonlinear activation function. Then we recursively define a matrix Sigma_k and compute the NTK at k’s layer using Sigma_k
+
+
+P5 - NTK theory background
+* MLPs have difficulty learning high frequency functions, a phenomenon referred to in the literature as “spectral bias”. 
+* NTK theory suggests that this is because standard MLPs correspond to kernels with a rapid frequency falloff, which effectively prevents them from being able to represent the high-frequency components in functions and content present in visual and audio data. 
+* Analysis of the NTK’s eigen-decomposition supports this theory. The outputs of a network throughout gradient descent remain close to a linear dynamical system whose convergence rate is governed by the eigenvalues of the NTK matrix. 
+* Analysis of the NTK’s eigen-decomposition shows that its eigenvalue spectrum decays rapidly as a function of frequency, which explains the "spectral bias" of deep networks towards learning low-frequency functions.
+
+
+P6 - experiment set up
+
+
+* We investigate several activation functions, including the rectified linear unit (ReLU) and a family of ReLU variants where we exponentiate ReLU to a constant power k. With higher value of k, ReLU^k becomes smoother and higher-order differentiable. 
+* We also build NTK activated by smooth functions such as sine and cosine. 
+* The intuition is that smooth kernels have more rapid spectral decay and we will observe this phenomenon in the experiments.
+
+
+P7 - part 1
+
+
+* Recent studies show that the RKHS of the NTK for a deep ReLU neural network is identical to the RKHS of a Laplace kernel. This result is expected to hold with some generality. 
+* The question we are trying to tackle here is, what happens to the Reproducing Kernel Hilbert Space (RKHS) of the NTK if ReLU is replaced by another activation function, such as ReLU^k  or smooth activation function such as sine, cosine? How does the RKHS compare to the ones of modified Laplacian/Gaussian kernels? 
+* Laplacian kernel is a common kernel used in image processing and it’s defined as follows. Here we observed that the scaling factor σ does not affect the spectral decay, and we can introduce another term to make this kernel smoother. We then have a generalized Laplacian kernel. The goal of our experiment is that for α = 1 and 2, find appropriate positive 𝛽 such that this kernel has a close spectral decay rate as the NTK with ReLU^k activation, for different small positive integer values of k.
+
+
+P8 - plot
+
+
+* Here we have preliminary comparison between different ReLU^k NTK decay plot and also the difference between a linear decay (in ReLU and Laplacian) and exponential decay (observed in sine and Gaussian kernels)
+
+
+P9 - result
+
+
+* Here are the plots for generalized Laplacian vs ReLU^k kernel decays for some integer k values. We computed the decay rate by getting the slope of the curve in a fixed range (ex [30, 100] and then found the laplacian kernel that has the closest decay rate for each k value.
+
+
+P10, 11 - linear relationship
+
+
+* From the above plots we can see that beta value increases as we have higher k values. We actually found that this relationship is almost linear in both alpha=1 and alpha=2 cases. 
+* Another finding is that if we give up beta parameter by setting it to 0, then the decay rate decreases linearly in response to increasing alpha and k values. 
+
+
+P12 - part 2
+
+
+* Now we move on to the second module of this project. Deep neural network with multiple activation functions can sometimes obtain much better approximation power than the ones with a single activation. Can we show that the spectral bias of NTK can be alleviated if one uses multiple activation functions? We will see what happens when sine and ReLU are applied together in a neural network, and how the kernel space behaves differently when we switch the order of the activation functions.
+
+
+P13 - build multi-layer NTK
+
+
+* To verify our idea, we had to extend our kernel construction from two layers to three layers, i.e., now we have an input layer and two hidden layers in our model. Because the sampling is now multivariate instead of the previous case, we had to build a new model from scratch to keep the computation coherent. 
+* Similar to the two-layer case, we have an analytical solution for the ReLU network, as well as numerical  approximation to a network with a general nonlinear activation, with both an entry-wise version and a vectorized implementation.
+
+
+P14 - kernel smoothness
+
+
+* We know that the sine and cosine functions are smooth, i.e. infinitely differentiable as any order of derivative is still continuous. On the other hand, ReLU is a non-smooth function as even the first order of derivative is not continuous. As we raise ReLU to some power k, the resulting function ReLU^k becomes somewhat "smoother" due to higher differentiability.
+* We have known facts about the relationship between the smoothness of the kernel function and their RKHS. As observed in our 2-layer NTKs, smoother kernels (Gaussian kernel and sine/cosine-activated NTK) have a much steeper spectral decay (exponential as we observed) whereas the other non-smooth kernels such as Laplacian and ReLU-activated NTK have a slower eigenvalue decay, linear under the log-log scale.
+* For the multi-layer NTK with different activation functions, our initial speculation was that the smoothness of the kernel is decided by whatever activation function that comes first, i.e. if we have a sine activation function on the first hidden layer and ReLU on the second, then the kernel would exhibit a faster spectral decay rate than the one if we switched the order of the activation functions. However, our numerical experiments tell otherwise.
+
+
+P15 - observation part 2
+
+
+* Here we have our numerical results from the kernel computations. In the K=1 case, we see that the spectral decays are similar and linear regardless of the placement of different activations
+* In all other cases, we observe that Sine+ ReLU^k has a steady but slower decay than ReLU^k activated NTK, which suggests learnability across the spectrum of different data frequencies
+* ReLU^k + sine spectrum has constantly large eigenvalues in the high frequency range, and then rapidly decay to near zero for the lower frequency range. We haven’t found a good explanation for this phenomenon but it seems to appear consistently for higher k values. 
+
+
+P16 - part 3
+
+
+* In this last part of our project, we consider the regression problem of fitting a target function containing multiple frequencies using neural networks. Due to the spectral bias, the high frequency mode is much more difficult to learn compared to the lower modes.
+* The question is, what can we observe from training under the standard weight initialization vs training under in the neural tangent kernel regime?
+* We picked two functions that contain both high and low frequency components, sum-of-sines and Fourier series square wave. And we tried fitting them using a three-layer fully connected NN, with two separate activation functions. 
+
+
+P17 - result(1)
+
+
+* The standard weight initialization for fully connected networks is uniform. Under this context, the training dynamic is said to be in the mean-field regime.
+* We observe that ReLU + sine combination performs very well when fitting those two multi-scale functions.  Sine + sine was also able to achieve low training loss, whereas ReLU activated networks did not do so well. This result made sense to us since the functions we picked were constructed by sine waves. 
+
+
+
+P18 - result(2)
+
+
+* Training in the NTK kernel regime requires us to initialize the weight from a Gaussian distribution with a specific standard deviation. We know that under this regime the weight remains constant during gradient descent - this phenomenon is called “lazy training”. Because of this lazy training, the predicted curve is found somewhere near initialization instead of our previous case where gradient descent may be able to gradually help the network find local minima. 
+* Our results show that ReLU+sine combination doesn’t appear to work as well in the NTK regime, but sine+sine could fit the square wave perfectly. Again this result appeared confusing to us but one possible interpretation is that ReLU + sine isn’t able to reach local minimum near weight initialization on the optimization landscape. 
+
+
+P19 - Summary
+
+
+* In this project, we did three main tasks. We first explored the relationship between the RKHS of ReLU^k activated NTK and generalized Laplacian and Gaussian kernels. 
+* Then we studied the learnabilities of the multi-layer NTK and the difference between the kernels when we apply multiple activation functions. 
+* And lastly we trained a three-layer network to fit multi-scale functions containing multiple frequencies in both the mean-field regime and the kernel regime and observed the performances.
+* As we discussed throughout this work, there are many phenomena that we have yet to find convincing explanations on the theoretical level. Many properties of NTK and deep neural networks remain open problems; nonetheless we hope to move closer to fully understanding deep learning by studying these theoretical structures and their numerical behaviors.  
+* And that is all for my talk, thanks for listening.
