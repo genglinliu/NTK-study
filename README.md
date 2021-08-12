@@ -95,6 +95,3 @@ Discussion: It is understandble how having sine as the last activation function 
 ### Talk link
 
 I gave a [talk](https://www.youtube.com/watch?v=DlQkt3v6qrU) about this project on the 2021 UConn REU conference
-
-### TODO:
-insert images/plots and more latex formulas about NTK into the doc
